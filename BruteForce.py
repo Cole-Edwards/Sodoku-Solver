@@ -2,7 +2,7 @@
 '''
 sodoku board consists of 9 3x3 squares 
 
-3d array can be used to make the the sodoku board
+2d array can be used to make the the sodoku board
     use mod3 to get the smaller 3x3 square 
 
 brute force to solve
@@ -11,35 +11,36 @@ brute force to solve
 '''
 
 #Check if move is able in the 3x3
-def sudChk(board, curCub):
+def sudChk(board, curCub, pos):
     print("in sudChk")
+    print(curCub)
     #check for dubs in the 3x3
     #checking for singletons
     #len(curCub) != len(set(curCub))
-    single = -1
+    single = 1
     for i in range(0,9):
-        if(curCub[0] == curCub[i] and curCub[i] != 0):
-            single = 0
-    if(single == 0):
-        print("Trigger 1")
-        return False, curCub
+        if(curCub[pos] == curCub[i] and curCub[i] != 0 and pos != i):
+            print("curCub[0] = ", curCub[0])
+            print("curCub[pos] = ", curCub[pos])
+            print("Trigger 1")
+            return (False, curCub)
     #check the verticle and horizontal lines
     #verticle 
-    elif():
-        print("Trigger 2")
-        for i in range(0,9):
-            if(board[i][0] == curCub[i][0]):
-                return False
+    for i in range(0,9):
+        if(board[i][0] == curCub[pos] and curCub[i] != 0 and pos != i):
+            print("Trigger 2")
+            return (False, curCub)
     #horizontal
-    elif():
-        print("Trigger 3")
-        for i in range(0,9):
-            for j in range(0,9):
-                if(board[i][j] == curCub[i][j%3]):
-                    return False
-    else:
-        print("else hit")
-        return True
+    for i in range(0,9):
+        for j in range(0,9):
+            if(board[i][j] == curCub[pos] and curCub[i] != 0 and pos != i):
+                print("board[i][j] = ", board[i][j])
+                print("curCub[pos] = ", curCub[pos])
+                print("Trigger 3")
+                return (False, curCub)
+    print("else hit")
+    return (True, curCub)
+    
     
 
 #solve the 3x3 
@@ -62,19 +63,18 @@ def sudSolv(board, curSq):
     ordSeq.sort()
     print("after ordSeq, solvSeq =", solvSeq)
     while(ordSeq != compareSeq):
-        for i in range(0,9):
+        for pos in range(0,9):
             passed = False
-            while(passed == False):
-                print("=========================================")
-                print("cur solvSeq[i]", solvSeq[i])
-                '''if(solvSeq[i] != 0):
-                    print("break hit")
-                    break'''
-                solvSeq[i] += 1
-                print("sending ", solvSeq[i], "to sudChk")
-                passed, solvSeq = sudChk(board, solvSeq)
-                print("after passed is returned",solvSeq)
-                print("passed = ", passed)
+            if(solvSeq[pos] == 0):
+                while(passed == False):
+                    print("=========================================")
+                    print("cur pos = ", pos)
+                    print("cur solvSeq[pos]", solvSeq[pos])
+                    solvSeq[pos] += 1
+                    print("sending ", solvSeq[pos], "to sudChk")
+                    passed, solvSeq = sudChk(board, solvSeq, pos)
+                    print("after passed is returned",solvSeq)
+                    print("passed = ", passed)
             
     #if(solvSeq.sort() == compareSeq):
     #    curSq += 1
