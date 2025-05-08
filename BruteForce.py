@@ -9,7 +9,7 @@ brute force to solve
     scannby rows as the entire row can only be singleton (only 1 number in each row, no repeat numbers)
 
 '''
-
+#---------------------------------------------------------------------------------------------------------
 #Check if move is able in the 3x3
 def sudChk(board, curCub, pos):
     print("in sudChk")
@@ -27,22 +27,40 @@ def sudChk(board, curCub, pos):
     #check the verticle and horizontal lines
     #verticle 
     for i in range(0,9):
-        if(board[i][0] == curCub[pos] and curCub[i] != 0 and pos != i):
+        if(board[pos][i] == curCub[pos] and curCub[i] != 0 and pos != i):
             print("Trigger 2")
             return (False, curCub)
     #horizontal
     for i in range(0,9):
-        for j in range(0,9):
-            if(board[i][j] == curCub[pos] and curCub[i] != 0 and pos != i):
-                print("board[i][j] = ", board[i][j])
-                print("curCub[pos] = ", curCub[pos])
-                print("Trigger 3")
-                return (False, curCub)
+        if(board[pos][i] == curCub[pos] and curCub[i] != 0 and pos != i):
+            print("board[pos][i] = ", board[pos][i])
+            print("curCub[pos] = ", curCub[pos])
+            print("Trigger 3")
+            return (False, curCub)
     print("else hit")
     return (True, curCub)
-    
-    
+#---------------------------------------------------------------------------------------------------------
+#Create a dictionary that can store all numbers that the cur pos CANNOT BE
 
+def noNumDict(board, solvSq):
+    noNoNums = {0:[],1:[],2:[],3:[],4:[],5:[],6:[],7:[],8:[]}
+    for pos in range(0,9):
+        if(solvSq[pos] == 0):
+            for i in range(0,9):
+                print("checking solvSq[i] = ", solvSq[i])
+                if(solvSq[i] != 0):
+                    print("adding: ", solvSq[i])
+                    noNoNums[pos].append(solvSq[i])
+                print("checking board[pos][i] = ", solvSq[i])
+                if(board[pos][i] != 0):
+                    if(board[pos][i]):
+                    print("adding: ", board[pos][i])
+                    noNoNums[pos].append(board[pos][i])
+    print("cur dictionary of numbers that cannot be")
+    print(noNoNums)
+
+
+#---------------------------------------------------------------------------------------------------------    
 #solve the 3x3 
 def sudSolv(board, curSq):
     print("in sudSolv")
@@ -57,7 +75,8 @@ def sudSolv(board, curSq):
         for k in range(0,3):
             solvSeq.append(board[j][k])
     print("cur solvSeq", solvSeq)
-    compareSeq = [1,2,3,4,5,6,7,8,9]
+    noNumDict(board, solvSeq)
+    '''compareSeq = [1,2,3,4,5,6,7,8,9]
     #compare the spots for 
     ordSeq = solvSeq.copy()
     ordSeq.sort()
@@ -74,7 +93,7 @@ def sudSolv(board, curSq):
                     print("sending ", solvSeq[pos], "to sudChk")
                     passed, solvSeq = sudChk(board, solvSeq, pos)
                     print("after passed is returned",solvSeq)
-                    print("passed = ", passed)
+                    print("passed = ", passed)'''
             
     #if(solvSeq.sort() == compareSeq):
     #    curSq += 1
