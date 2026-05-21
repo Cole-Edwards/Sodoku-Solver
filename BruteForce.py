@@ -109,6 +109,10 @@ def noNumDict(board):
                         elif(board[j][i] not in noNoNums[(i + (9*curArr))]):
                             noNoNums[(i + (9*curArr))].append(board[j][i])
         
+        print("\ncurrent list of nononums before 3x3:")
+        print(noNoNums)
+        print()
+
         #check within the 3x3 square the curpos belongs too
         #find the square its apart of
 
@@ -124,10 +128,15 @@ def noNumDict(board):
                     curSqSeq = curSqs[curSqNum]
                     print("curSqNum = ", curSqNum)
                     print("curSqSeq = ", curSqSeq)
-                    for i in range(0,9):
+                    #get rid of all zeros
+                    i = 0
+                    while(0 in curSqSeq[0]):
                         if(curSqSeq[0][i] == 0):
-                            curSqSeq[0][i].remove(i)
-                    print("here are the numbers that it can't be from its curSq:", curSqSeq[curSqNum])
+                            curSqSeq[0].remove(0)
+                        else: 
+                            i += 1
+                    print("here are the numbers that it can't be from its curSq:", curSqSeq[0])
+                    #need to save these nonoNums from the 3x3 to the dictionary
         
         print("Numbers that the positions cannot be")
         print(noNoNums)
