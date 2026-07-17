@@ -138,9 +138,9 @@ def noNumDict(board):
                     print("here are the numbers that it can't be from its curSq:", curSqSeq[0])
                     #need to save these nonoNums from the 3x3 to the dictionary
         
-        print("Numbers that the positions cannot be")
+        print("Numbers that the positions cannot be, Before Return Statement")
         print(noNoNums)
-        #return noNoNums
+        return noNoNums
 
 
 #---------------------------------------------------------------------------------------------------------
@@ -171,6 +171,8 @@ def sudSolv(board, curSeq):
     #    for k in range(0,3):
     #        solvSeq.append(board[j][k])
     badnums = noNumDict(board)
+    print("back in sudSolv")
+    print(badnums)
     #potAns(badnums)
     #increment square
     #return solved board
