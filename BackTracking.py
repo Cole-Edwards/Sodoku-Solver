@@ -4,40 +4,41 @@ def printArray(Board):
         print(row)
 
 #---------------------------------Check if move is possible------------------------------------------------------------------------
-'''
-NEED TO REWRITE sudChk
-
-not looping thru arrays properly.
-'''
 
 #Check if move is able in the 3x3
-def sudChk(board, curCub, pos):
+def sudChk(board, curCub, pos, row):
     print("in sudChk")
     print("curCub: ", curCub)
     #check for dubs in the 3x3
     #checking for singletons
     #len(curCub) != len(set(curCub))
     single = 1
+    print("3x3")
     for i in range(0,9):
-        print("curCub[0] = ", curCub[0])
+        print("curCub[i] = ", curCub[i])
         print("curCub[pos] = ", curCub[pos])
         if(curCub[pos] == curCub[i] and curCub[i] != 0 and pos != i):
             print("Square Trigger")
             return (True)
     #check the verticle and horizontal lines
     #verticle 
+    print("Verticle")
     for i in range(0,9):
-        if(board[pos][i] == curCub[pos] and curCub[i] != 0 and pos != i):
+        print("board[i][pos]: ", board[i][pos])
+        print("board[row][pos]: ", board[row][pos])
+        #looping array compared to current item
+        if(board[i][pos] == board[row][pos] and board[i][pos] != 0 and row != i):
             print("Vert Trigger")
             return (True)
     #horizontal
+    print("Horizontal")
     for i in range(0,9):
-        if(board[pos][i] == curCub[pos] and curCub[i] != 0 and pos != i):
-            print("board[pos][i] = ", board[pos][i])
-            print("curCub[pos] = ", curCub[pos])
+        print("board[i][pos]: ", board[row][i])
+        print("board[row][pos]: ", board[row][pos])
+        if(board[row][i] == board[row][pos] and board[row][i] != 0 and pos != i):
             print("Horiz Trigger")
             return (True)
-    print("no issues in sudChk")
+    print("no issues in sudChk\n")
     return False
 
 #-----------------------------Get 3x3----------------------------------------------------------------------------
@@ -115,16 +116,30 @@ def sudSolv(board):
     for i in range(0, len(board[0])):
         for j in range(0, len(board[0])):
             if(mask[i][j] == 0):
-                for itt in range(1,9):
+                for itt in range(1,11):
                     print("cur pos: Row = ", i, " Col = ", j)
                     failed = True
                     #if mask == 0 and this position isn't at the limit of 9
                     print("Mask:", mask[i][j] == 0)
                     print("Board num: ", board[i][j])
-                    if(mask[i][j] == 0 and board[i][j] < 9):
+                    if(itt > 9):
+                        #backtrack
+                        print("BACKTRACKING")
+                        #subtract j by 1, if j == 1, subtract i by 1
+                        if(j != 0):
+                            print("backing j up")
+                            j -= 1
+                            itt = board[i][j]
+                        elif(j == 0 and i != 0):
+                            print("backing i up")
+                            i -= 1
+                            itt = board[i][j] 
+                        else:
+                            print("I shouldn't be here")
+                    elif(mask[i][j] == 0 and board[i][j] <= 9):
                         #if we meet those terms, inc cur pos by one
                         board[i][j] = itt
-                        print("current num: ", board[i][j])
+                        print("-------current num: ", board[i][j])
                         #get cur num of square we are in
                         curSq = getSqNum(i, j)
                         print("curSq = ", curSq)
@@ -132,25 +147,13 @@ def sudSolv(board):
                         curTBTsq = getSq(board)
                         #call for check
                         print("Running check")
-                        failed = sudChk(board, curTBTsq[curSq][0], j)
+                        failed = sudChk(board, curTBTsq[curSq][0], j, i)
                         if(failed == False):
                             print("Check Pass\n")
                             break
-                    else:
-                        #backtrack
-                        #subtract j by 1, if j == 1, subtract i by 1
-                        if(j != 1):
-                            print("backing j up")
-                            j -= 1
-                        elif(j == 1 and i != 0):
-                            print("backing i up")
-                            i -= 1
-                        else:
-                            print("I shouldn't be here")
+                    
                     
 
-                    
-    
     #return solved board
     return board
         
